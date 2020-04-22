@@ -67,8 +67,8 @@ class CryptocurrencyExchangeControllerTest {
 				.thenReturn(new CryptocurrencyExchangeForecastResponse(
 						ABC,
 						ImmutableMap.of(
-								BCA, new ExchangeDetails(BigDecimal.valueOf(123.4567890), BigDecimal.valueOf(10), BigDecimal.valueOf(98.7654321), BigDecimal.valueOf(12345.6789)),
-								CBA, new ExchangeDetails(BigDecimal.valueOf(1.23456789), BigDecimal.valueOf(20), BigDecimal.valueOf(1234567.89), BigDecimal.valueOf(12.3456789)))));
+								BCA, exchangeDetails(123.4567890, 10, 98.7654321, 12345.6789),
+								CBA, exchangeDetails(1.23456789, 20, 1234567.89, 12.3456789))));
 
 
 		mockMvc.perform(post("/currencies/exchange")
@@ -91,8 +91,8 @@ class CryptocurrencyExchangeControllerTest {
 
 	}
 
-	ExchangeDetails exchangeDetails() {
-		return new ExchangeDetails(BigDecimal.valueOf(123.4567890), BigDecimal.valueOf(10), BigDecimal.valueOf(98.7654321), BigDecimal.valueOf(12345.6789));
+	ExchangeDetails exchangeDetails(double rate, double amount, double result, double fee) {
+		return new ExchangeDetails(BigDecimal.valueOf(rate), BigDecimal.valueOf(amount), BigDecimal.valueOf(result), BigDecimal.valueOf(fee));
 	}
 
 }
