@@ -24,11 +24,19 @@ import static pl.dawid.bronczak.cryptocurrencyexchangeapp.TestConstants.*;
 
 class CoinApiRestClientTest {
 
+	private static final byte[] RESPONSE_BODY_FOR_SINGLE_CURRENCY = readFileAsByteArray("src/test/resources/exchangeRateResponseBodyForSingleCurrency.json");
+	private static final byte[] RESPONSE_BODY_FOR_ALL_CURRENCIES = readFileAsByteArray("src/test/resources/exchangeRateResponseBodyForAllCurrencies.json");
+
 	private MockRestServiceServer mockedCoinApiServer;
 	private CoinApiRestClient coinApiRestClient;
 
-	private static final byte[] RESPONSE_BODY_FOR_SINGLE_CURRENCY = readFileAsByteArray("src/test/resources/exchangeRateResponseBodyForSingleCurrency.json");
-	private static final byte[] RESPONSE_BODY_FOR_ALL_CURRENCIES = readFileAsByteArray("src/test/resources/exchangeRateResponseBodyForAllCurrencies.json");
+	private static byte[] readFileAsByteArray(String path) {
+		try {
+			return Files.readAllBytes(Paths.get(path));
+		} catch (IOException e) {
+			throw new RuntimeException("Cannot read file", e);
+		}
+	}
 
 	@BeforeEach
 	void setUpClient() {
@@ -73,13 +81,5 @@ class CoinApiRestClientTest {
 				.isEqualTo("3260.35143212");
 
 		mockedCoinApiServer.verify();
-	}
-
-	private static byte[] readFileAsByteArray(String path) {
-		try {
-			return Files.readAllBytes(Paths.get(path));
-		} catch (IOException e) {
-			throw new RuntimeException("Cannot read file", e);
-		}
 	}
 }
