@@ -39,15 +39,15 @@ public class CryptocurrencyExchangeService {
 	}
 
 	public CryptocurrencyExchangeForecastResponse calculateExchangeForecast(CryptocurrencyExchangeForecastRequest cryptocurrencyExchangeForecastRequest) {
-		BigDecimal exchangeFee = calculateFee(cryptocurrencyExchangeForecastRequest.getAmount());
-		BigDecimal amountMinusFee = cryptocurrencyExchangeForecastRequest.getAmount().subtract(exchangeFee);
+		BigDecimal fee = calculateFee(cryptocurrencyExchangeForecastRequest.getAmount());
+
 
 		CurrencyType baseCurrency = cryptocurrencyExchangeForecastRequest.getBaseCurrency();
 		ensureCurrenciesToExchangeIsNotEmpty(cryptocurrencyExchangeForecastRequest.getCurrenciesToExchange());
 		ensureCurrenciesToExchangeNotContainBaseCurrency(baseCurrency, cryptocurrencyExchangeForecastRequest.getCurrenciesToExchange());
 		Map<CurrencyType, ExchangeDetails> exchangeResults = cryptocurrencyExchangeForecastRequest.getCurrenciesToExchange().parallelStream()
 				.map(fetchCurrencyExchangeRateFrom(baseCurrency))
-				.map(prepareExchangeDetails(cryptocurrencyExchangeForecastRequest, exchangeFee, amountMinusFee))
+				.map(prepareExchangeDetails(cryptocurrencyExchangeForecastRequest, fee))
 				.collect(toMap(SimpleEntry::getKey, SimpleEntry::getValue));
 
 		return new CryptocurrencyExchangeForecastResponse(cryptocurrencyExchangeForecastRequest.getBaseCurrency(), exchangeResults);
@@ -59,9 +59,12 @@ public class CryptocurrencyExchangeService {
 				.divide(BigDecimal.valueOf(100));
 	}
 
-	private Function<SimpleEntry<CurrencyType, BigDecimal>, SimpleEntry<CurrencyType, ExchangeDetails>> prepareExchangeDetails(CryptocurrencyExchangeForecastRequest cryptocurrencyExchangeForecastRequest, BigDecimal exchangeFee, BigDecimal amountMinusFee) {
-		return currencyExchangeMap -> new SimpleEntry<>(currencyExchangeMap.getKey(),
-				new ExchangeDetails(currencyExchangeMap.getValue(), cryptocurrencyExchangeForecastRequest.getAmount(), currencyExchangeMap.getValue().multiply(amountMinusFee), exchangeFee));
+	private Function<SimpleEntry<CurrencyType, BigDecimal>, SimpleEntry<CurrencyType, ExchangeDetails>> prepareExchangeDetails(CryptocurrencyExchangeForecastRequest cryptocurrencyExchangeForecastRequest, BigDecimal fee) {
+		return currencyExchangeRate -> new SimpleEntry<>(currencyExchangeRate.getKey(),
+				new ExchangeDetails(
+						currencyExchangeRate.getValue(),
+						cryptocurrencyExchangeForecastRequest.getAmount(),
+						currencyExchangeRate.getValue().multiply(cryptocurrencyExchangeForecastRequest.getAmount()), fee));
 	}
 
 	private Function<CurrencyType, SimpleEntry<CurrencyType, BigDecimal>> fetchCurrencyExchangeRateFrom(CurrencyType baseCurrency) {

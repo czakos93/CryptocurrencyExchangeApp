@@ -25,6 +25,8 @@ import static pl.dawid.bronczak.cryptocurrencyexchangeapp.TestConstants.*;
 
 class CryptocurrencyExchangeServiceTest {
 
+	private static final BigDecimal EXPECTED_EXCHANGE_RESULT_FOR_CBA = BigDecimal.valueOf(1543.4532);
+	private static final BigDecimal EXPECTED_EXCHANGE_RESULT_FOR_BCA = BigDecimal.valueOf(6657.38976);
 	@Mock
 	private CryptocurrencyApiClient mockedCryptocurrencyApiClient;
 	private CryptocurrencyExchangeService cryptocurrencyExchangeService;
@@ -102,8 +104,8 @@ class CryptocurrencyExchangeServiceTest {
 		assertThat(response.getExchangeResults())
 				.hasSize(2)
 				.contains(
-						entry(CBA, new ExchangeDetails(CBA_EXCHANGE_RATE, AMOUNT, BigDecimal.valueOf(1435.411476), EXCHANGE_FEE)),
-						entry(BCA, new ExchangeDetails(BCA_EXCHANGE_RATE, AMOUNT, BigDecimal.valueOf(6191.3724768), EXCHANGE_FEE)));
+						entry(CBA, new ExchangeDetails(CBA_EXCHANGE_RATE, AMOUNT, EXPECTED_EXCHANGE_RESULT_FOR_CBA, EXCHANGE_FEE)),
+						entry(BCA, new ExchangeDetails(BCA_EXCHANGE_RATE, AMOUNT, EXPECTED_EXCHANGE_RESULT_FOR_BCA, EXCHANGE_FEE)));
 	}
 
 	@Test
