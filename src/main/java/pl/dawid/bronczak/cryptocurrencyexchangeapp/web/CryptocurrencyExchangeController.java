@@ -21,7 +21,7 @@ public class CryptocurrencyExchangeController {
 	@GetMapping(value = "/currencies/{currencyType}", produces = APPLICATION_JSON_VALUE)
 	CryptocurrencyExchangeRateResponse getCryptocurrencyExchangeRate(
 			@PathVariable("currencyType") CurrencyType baseCurrency,
-			@RequestParam(value = "filter", required = false) Set<CurrencyType> currenciesToExchange) {
+			@RequestParam(value = "filter[]", required = false) Set<CurrencyType> currenciesToExchange) {
 		return cryptocurrencyExchangeService.getExchangeRate(baseCurrency, currenciesToExchange);
 	}
 

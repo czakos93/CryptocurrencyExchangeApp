@@ -49,7 +49,7 @@ class CryptocurrencyExchangeControllerTest {
 						BCA, BigDecimal.valueOf(98.7654321))));
 
 		mockMvc.perform(
-				get("/currencies/ABC?filter=CBA&filter=BCA"))
+				get("/currencies/ABC?filter[]=CBA&filter[]=BCA"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[*]", hasSize(2)))
 				.andExpect(jsonPath("$.source").value(ABC.getStringValue()))
