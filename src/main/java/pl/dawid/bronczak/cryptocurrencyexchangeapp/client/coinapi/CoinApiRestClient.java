@@ -39,7 +39,7 @@ public class CoinApiRestClient implements CryptocurrencyApiClient {
 	}
 
 	@Override
-	public Map<CurrencyType, BigDecimal> fetchCryptocurrencyExchangeRateForAllCryptocurrencies(CurrencyType baseCurrency) {
+	public Map<CurrencyType, BigDecimal> fetchExchangeRatesForAllCurrencies(CurrencyType baseCurrency) {
 
 		return restTemplate.exchange(prepareRequestURI(baseCurrency), GET, requestHeaders, CoinApiExchangeRateForAllCurrenciesResponse.class)
 				.getBody()

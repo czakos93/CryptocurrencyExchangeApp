@@ -62,7 +62,7 @@ class CryptocurrencyExchangeControllerTest {
 	void returnsStatusOkAndExchangeForecast() throws Exception {
 		CryptocurrencyExchangeForecastRequest cryptocurrencyExchangeForecastRequest = new CryptocurrencyExchangeForecastRequest(ABC, newHashSet(CBA, BCA), new BigDecimal(123));
 
-		when(cryptocurrencyExchangeService.calculateExchangeForecast(eq(cryptocurrencyExchangeForecastRequest)))
+		when(cryptocurrencyExchangeService.calculateExchangeForecast(eq(ABC), eq(newHashSet(CBA, BCA)), eq(new BigDecimal(123))))
 				.thenReturn(new CryptocurrencyExchangeForecastResponse(
 						ABC,
 						ImmutableMap.of(

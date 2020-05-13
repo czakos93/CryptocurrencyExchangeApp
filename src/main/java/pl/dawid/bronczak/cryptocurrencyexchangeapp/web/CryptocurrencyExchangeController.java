@@ -28,6 +28,9 @@ public class CryptocurrencyExchangeController {
 	@PostMapping(value = "/currencies/exchange", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	CryptocurrencyExchangeForecastResponse getCryptocurrencyExchangeForecast(
 			@RequestBody @Valid CryptocurrencyExchangeForecastRequest cryptocurrencyExchangeForecastRequest) {
-		return cryptocurrencyExchangeService.calculateExchangeForecast(cryptocurrencyExchangeForecastRequest);
+		return cryptocurrencyExchangeService.calculateExchangeForecast(
+				cryptocurrencyExchangeForecastRequest.getBaseCurrency(),
+				cryptocurrencyExchangeForecastRequest.getCurrenciesToExchange(),
+				cryptocurrencyExchangeForecastRequest.getAmount());
 	}
 }

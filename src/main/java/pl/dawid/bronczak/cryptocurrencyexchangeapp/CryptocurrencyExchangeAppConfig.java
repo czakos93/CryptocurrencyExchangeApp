@@ -15,6 +15,9 @@ public class CryptocurrencyExchangeAppConfig {
 	@Value("${exchangeFeeInPercent}")
 	private int feePercent;
 
+	@Value("${threadsPoolAmount}")
+	private int threadPoolAmount;
+
 	@Bean
 	RestTemplate restTemplate() {
 		return new RestTemplate();
@@ -27,6 +30,6 @@ public class CryptocurrencyExchangeAppConfig {
 
 	@Bean
 	CryptocurrencyExchangeService cryptocurrencyExchangeService(CryptocurrencyApiClient cryptocurrencyApiClient) {
-		return new CryptocurrencyExchangeService(cryptocurrencyApiClient, feePercent);
+		return new CryptocurrencyExchangeService(cryptocurrencyApiClient, feePercent, threadPoolAmount);
 	}
 }

@@ -55,7 +55,7 @@ class CoinApiRestClientTest {
 						.contentType(APPLICATION_JSON)
 						.body(RESPONSE_BODY_FOR_ALL_CURRENCIES));
 
-		Map<CurrencyType, BigDecimal> exchangeRates = coinApiRestClient.fetchCryptocurrencyExchangeRateForAllCryptocurrencies(ABC);
+		Map<CurrencyType, BigDecimal> exchangeRates = coinApiRestClient.fetchExchangeRatesForAllCurrencies(ABC);
 
 		assertThat(exchangeRates)
 				.hasSize(2)

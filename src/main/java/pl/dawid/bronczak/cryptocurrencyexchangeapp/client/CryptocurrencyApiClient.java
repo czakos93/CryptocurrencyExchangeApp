@@ -9,5 +9,5 @@ public interface CryptocurrencyApiClient {
 
 	BigDecimal fetchCryptocurrencyExchangeRate(CurrencyType baseCurrency, CurrencyType currencyToCheckExchangeRate);
 
-	Map<CurrencyType, BigDecimal> fetchCryptocurrencyExchangeRateForAllCryptocurrencies(CurrencyType baseCurrency);
+	Map<CurrencyType, BigDecimal> fetchExchangeRatesForAllCurrencies(CurrencyType baseCurrency);
 }
